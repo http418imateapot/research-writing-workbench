@@ -13,7 +13,7 @@ SKILL_REL = Path(".agents/skills/research-writing-workbench")
 REQUIRED_FILES = [
     Path("README.md"), Path("README.en.md"), Path("AGENTS.md"),
     Path("ARCHITECTURE.md"), Path("VERSION"), Path("CITATION.cff"),
-    Path("CHANGELOG.md"), Path("LICENSE"), Path("NOTICE"),
+    Path("CHANGELOG.md"), Path("LICENSE"), Path("THIRD_PARTY_NOTICES.md"),
     Path("CONTRIBUTING.md"), Path("CODE_OF_CONDUCT.md"), Path("SECURITY.md"),
     SKILL_REL / "SKILL.md",
     Path("prompts/master-prompt.zh-TW.md"),

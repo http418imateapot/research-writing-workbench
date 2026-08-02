@@ -29,4 +29,4 @@ Use $research-writing-workbench to build a validation contract and counterexampl
 
 For environments without repository skills, use the [generic Traditional Chinese prompt](prompts/master-prompt.zh-TW.md). Run `python scripts/check_all.py` for repository checks. Passing checks do not establish research validity or general effectiveness.
 
-Repository-authored content is licensed under [Apache-2.0](LICENSE). This license does not cover the referenced book, purchaser-only attachments, or other third-party material.
+Repository-authored content is licensed under [MIT](LICENSE). This license does not cover the referenced book, purchaser-only attachments, or other third-party material; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

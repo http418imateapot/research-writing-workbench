@@ -69,4 +69,4 @@ python scripts/package_skill.py --output-dir .work/package-smoke
 
 ## 貢獻與授權
 
-請閱讀 [CONTRIBUTING.md](CONTRIBUTING.md)、[內容政策](docs/governance/content-policy.md) 與 [SECURITY.md](SECURITY.md)。本 repository 自行建立的內容採 [Apache License 2.0](LICENSE)；授權不延伸至參考書籍、購書附件或其他第三方內容。
+請閱讀 [CONTRIBUTING.md](CONTRIBUTING.md)、[內容政策](docs/governance/content-policy.md) 與 [SECURITY.md](SECURITY.md)。本 repository 自行建立的內容採 [MIT License](LICENSE)；授權不延伸至參考書籍、購書附件或其他第三方內容，詳見 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
