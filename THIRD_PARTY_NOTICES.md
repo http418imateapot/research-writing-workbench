@@ -1,0 +1,8 @@
+# Third-Party Notices
+
+Research Writing Workbench
+Copyright 2026 http418imateapot and contributors
+
+This product includes software and documentation independently developed for the Research Writing Workbench project.
+
+The project cites "AI 研究寫作全攻略：NotebookLM × Gemini × ChatGPT × Perplexity" as a conceptual starting point. The book, purchaser-only attachments, and other third-party material are not included and are not licensed under this repository's MIT License.
