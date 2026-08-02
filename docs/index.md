@@ -11,4 +11,4 @@
 - [隱私與來源追溯](governance/privacy-and-provenance.md)
 - [版本與變更控制](governance/versioning-and-change-control.md)
 - [ADR 0001：唯一正式 Skill](decisions/0001-skill-as-canonical-source.md)
-- [ADR 0002：CTCC 控制環](decisions/0002-evidence-first-workflow.md)
+- [ADR 0002：CTCC 控制環](decisions/0002-ctcc-engineering-control-loop.md)
