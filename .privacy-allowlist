@@ -1,0 +1,9 @@
+# 每行為正規表示式；只允許明確公開文字或安全測試資料。
+example\.com
+example\.invalid
+www\.apache\.org
+keepachangelog\.com
+research-writing-workbench
+# 公開書目識別碼與公開商品頁；僅限 docs/method-origin.md 使用。
+9789863128601
+books\.com\.tw/products/0011044193

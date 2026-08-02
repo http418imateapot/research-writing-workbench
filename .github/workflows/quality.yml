@@ -1,0 +1,34 @@
+name: quality
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate repository
+        run: python scripts/validate_repository.py
+      - name: Scan privacy risks
+        run: python scripts/privacy_scan.py
+      - name: Package skill smoke test
+        run: python scripts/package_skill.py --output-dir .work/ci-artifacts
+      - name: Upload packaged skill
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-writing-workbench-skill
+          path: .work/ci-artifacts/*
+          if-no-files-found: error

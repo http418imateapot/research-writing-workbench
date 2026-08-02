@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Sensitive security or privacy report
+    url: https://github.com/http418imateapot/research-writing-workbench/security/advisories/new
+    about: Use private vulnerability reporting; do not post secrets or private research in public issues.

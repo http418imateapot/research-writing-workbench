@@ -1,0 +1,4 @@
+contact=researcher@example.invalid
+token=FAKE_TEST_TOKEN_1234567890
+home=C:\Users\synthetic-person\project
+database=postgresql://synthetic:synthetic@localhost/example

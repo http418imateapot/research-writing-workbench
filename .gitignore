@@ -1,0 +1,10 @@
+.work/
+dist/
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+*.bak
+*.zip

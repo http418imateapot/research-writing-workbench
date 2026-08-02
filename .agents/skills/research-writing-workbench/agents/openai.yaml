@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Writing Workbench"
+  short_description: "以契約、軌跡與反例建立軟體工程研究的有限論證工作台"
+  default_prompt: "Use $research-writing-workbench to turn my software engineering artifact into a reproducible, falsifiable, and bounded research claim."
