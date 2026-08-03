@@ -67,4 +67,4 @@ Skill、Prompt、Workflow、資料格式、研究產物與操作慣例均依上�
 
 本 repository 只收錄自行建立或已確認具適當授權的內容。以下不屬於 repository：購書者專屬附件、附件內的 Skill／Prompt／Workflow／模板、欄位設計、範例、操作說明及其他未獲授權出版內容。
 
-購書附件仍應依出版社與著作權人的條件使用。repository 的開源授權只適用於可確認由本專案自行建立的內容，不延伸至書籍、附件或其他第三方資料。
+購書附件仍應依出版社與著作權人的條件使用。repository 的開源授權（MIT License，見 [LICENSE](../LICENSE) 與 [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md)）只適用於可確認由本專案自行建立的內容，不延伸至書籍、附件或其他第三方資料。

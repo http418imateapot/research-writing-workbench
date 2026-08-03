@@ -20,7 +20,7 @@ REQUIRED_FILES = [
     Path("README.md"), Path("README.zh-TW.md"), Path("README.en.md"),
     Path("AGENTS.md"), Path("ARCHITECTURE.md"), Path("VERSION"),
     Path("CITATION.cff"), Path("CHANGELOG.md"), Path("LICENSE"),
-    Path("NOTICE"), Path("CONTRIBUTING.md"), Path("CODE_OF_CONDUCT.md"),
+    Path("THIRD_PARTY_NOTICES.md"), Path("CONTRIBUTING.md"), Path("CODE_OF_CONDUCT.md"),
     Path("SECURITY.md"), Path("build.py"), Path("build.sh"), Path("build.bat"),
     Path("docs/DATA-CONTRACTS.md"), Path("docs/INSTALL.md"),
     Path("docs/USAGE.zh-TW.md"), Path("docs/MIGRATION-1.0.md"), Path("toolkit/README.md"),

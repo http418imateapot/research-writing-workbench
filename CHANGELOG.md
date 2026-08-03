@@ -18,6 +18,8 @@
 - 正式 Skill 原始碼由 `.agents/skills/` 遷移到 `skills/`；建置後的 `dist/agents-skills/` 作為自足安裝來源。
 - `README.md` 改為英文主檔，新增 `README.zh-TW.md`；`README.en.md` 保留相容入口。
 - 專案 Python 開發、測試與建置改為只透過 repository `.venv`。
+- 專案授權由 Apache License 2.0 改為 MIT License，並同步更新 `CITATION.cff`、README 與授權治理文件。
+- `NOTICE` 改名為 `THIRD_PARTY_NOTICES.md`，繼續說明參考書籍與購書附件不屬於本專案授權範圍。
 
 ### Compatibility
 

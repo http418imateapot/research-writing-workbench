@@ -72,4 +72,4 @@ Passing repository checks proves only the checked contracts. It does not establi
 
 The deterministic CLI uses Python's standard library at runtime. Development tests use the pinned ranges in `requirements-dev.txt`. External search, source verification, ethics review, statistical review, copyright clearance, and final claims remain human responsibilities.
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and the [content policy](docs/governance/content-policy.md). Repository-authored content is licensed under [Apache-2.0](LICENSE); that license does not extend to referenced books, purchaser-only attachments, papers, datasets, images, or other third-party material.
+Read [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and the [content policy](docs/governance/content-policy.md). Repository-authored content is licensed under [MIT](LICENSE); that license does not extend to referenced books, purchaser-only attachments, papers, datasets, images, or other third-party material. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

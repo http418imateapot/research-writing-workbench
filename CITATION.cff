@@ -6,4 +6,4 @@ version: "1.0.0"
 date-released: "2026-08-03"
 authors:
   - name: "http418imateapot and contributors"
-license: Apache-2.0
+license: MIT
