@@ -1,7 +1,7 @@
 # Maintenance
 
-先閱讀根目錄 [AGENTS.md](../AGENTS.md)。方法與模板只在 `.agents/skills/research-writing-workbench/` 變更；同步檢查 Prompt、README、docs、examples、tests 與 CHANGELOG。
+Read the root [AGENTS.md](../AGENTS.md). Edit Skill instructions only in `skills/`, shared Schemas and rules only in `shared/`, and deterministic logic only in `scripts/` or `build.py`. Do not edit `dist/`.
 
-每次變更執行 `python scripts/check_all.py`。發布前另執行 `python scripts/package_skill.py --output-dir .work/package-smoke`，解壓後人工確認只有正式 Skill，沒有前身附件、私有工程材料、tests、`.work`、cache 或秘密資訊。
+Run the full `.venv` command set in AGENTS.md for every user-visible change. Validate every Skill with the available official Skill validator, run the built-in repository validator, perform the privacy scan, build twice, and compare all ZIP SHA-256 values.
 
-新增隱私 allowlist 項目時，必須說明它為何是公開且安全的文字；不得用 allowlist 隱藏真正問題。
+When adding a Skill or dependency, update the explicit build maps, agents metadata, prompt-template, docs, tests, CHANGELOG, and package self-containment checks. New allowlist entries require a documented public and safe reason; never use an allowlist to hide a real secret or private identifier.

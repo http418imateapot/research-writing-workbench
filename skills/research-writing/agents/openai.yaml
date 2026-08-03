@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Writing"
+  short_description: "Draft evidence-bounded academic prose"
+  default_prompt: "Use $research-writing to draft an evidence-bounded thesis section from reviewed claim records."

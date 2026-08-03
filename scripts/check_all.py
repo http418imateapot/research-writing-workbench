@@ -12,9 +12,11 @@ from typing import List
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     commands: List[List[str]] = [
-        [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"],
+        [sys.executable, "-m", "compileall", "-q", "build.py", "scripts", "tests"],
+        [sys.executable, "-m", "pytest", "-q"],
         [sys.executable, "scripts/validate_repository.py"],
         [sys.executable, "scripts/privacy_scan.py"],
+        [sys.executable, "build.py", "--check"],
     ]
     for command in commands:
         print(f"Running: {' '.join(command)}", flush=True)

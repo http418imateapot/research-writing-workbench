@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-08-03",
+  "evidence": [
+    {
+      "evidence_id": "EV-SYN-001",
+      "statement": "The synthetic fixture records one observable state transition.",
+      "classification": "explicit",
+      "source_refs": [{"source_id": "SRC-SYN-001", "locator": "section:observation"}],
+      "method": "Direct extraction from the synthetic note.",
+      "scope": "Only the invented fixture text.",
+      "limitations": "No software was executed and no real system is represented.",
+      "confidence": "high",
+      "status": "reviewed"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "CL-SYN-001",
+      "text": "The invented fixture states that one observable transition occurred.",
+      "claim_type": "behavior",
+      "evidence_ids": ["EV-SYN-001"],
+      "scope": "The wording of the synthetic fixture only.",
+      "limitations": "This is not evidence of an executed system.",
+      "status": "reviewed",
+      "active": true,
+      "researcher_decision": "keep"
+    }
+  ]
+}

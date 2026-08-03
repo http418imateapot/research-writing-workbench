@@ -1,0 +1,4 @@
+interface:
+  display_name: "Methodology Review"
+  short_description: "Review methods, validity, and reproducibility"
+  default_prompt: "Use $methodology-review to audit my study design, validity threats, and reproducibility evidence."

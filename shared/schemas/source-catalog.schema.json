@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/research-writing-workbench/source-catalog.schema.json",
+  "title": "Source Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "sources"],
+  "properties": {
+    "schema_version": {"type": "string", "enum": ["1.0.0"]},
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "title", "authors", "year", "version", "publication", "identifiers", "location", "sha256", "locators", "excerpts", "accessed_at", "status", "verification_status", "license_status"],
+        "properties": {
+          "source_id": {"type": "string", "pattern": "SRC-[A-Z0-9][A-Z0-9-]{2,63}"},
+          "title": {"type": "string", "minLength": 1},
+          "authors": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "year": {"type": "string", "pattern": "[0-9]{4}|unreported"},
+          "version": {"type": "string", "minLength": 1},
+          "publication": {"type": "string", "minLength": 1},
+          "identifiers": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "doi": {"type": "string", "minLength": 1},
+              "url": {"type": "string", "minLength": 1},
+              "other": {"type": "string", "minLength": 1}
+            }
+          },
+          "location": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+          "locators": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "excerpts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["locator", "text", "sha256", "redacted"],
+              "properties": {
+                "locator": {"type": "string", "minLength": 1},
+                "text": {"type": "string", "minLength": 1, "maxLength": 1000},
+                "sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+                "redacted": {"type": "boolean"}
+              }
+            }
+          },
+          "accessed_at": {"type": "string", "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}"},
+          "status": {"type": "string", "enum": ["active", "corrected", "retracted", "superseded"]},
+          "verification_status": {"type": "string", "enum": ["verified", "unverified", "conflicted"]},
+          "license_status": {"type": "string", "enum": ["redistributable", "metadata-only", "restricted", "unknown"]},
+          "conflict_group": {"type": "string", "minLength": 1},
+          "notes": {"type": "string"}
+        }
+      }
+    }
+  }
+}

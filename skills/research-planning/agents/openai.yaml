@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Planning"
+  short_description: "Plan bounded, testable research projects"
+  default_prompt: "Use $research-planning to turn my engineering topic into a bounded research question and executable protocol."

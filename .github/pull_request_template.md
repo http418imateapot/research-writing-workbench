@@ -4,8 +4,13 @@ Describe the scoped change, affected contracts, and evidence for new research cr
 
 ## Validation
 
-- [ ] `python scripts/check_all.py`
-- [ ] `python scripts/package_skill.py --output-dir .work/package-smoke`
+- [ ] `.venv` Python compileall、pytest、repository validator 與 privacy scan 通過
+- [ ] `.venv` Python `build.py --check` 與完整建置通過
+- [ ] 連續兩次完整建置的 ZIP SHA-256 相同
+- [ ] `git ls-files dist` 無輸出
+- [ ] 舊 `package_skill.py --output-dir` 相容測試通過
+- [ ] Skill metadata、prompt-template、reference 與自足 private import 通過驗證
+- [ ] 來源、Evidence、Finding、Checklist、Decision Log 與正式輸出未混寫
 - [ ] `git diff --check`
 - [ ] Privacy and identifiable-content review
 

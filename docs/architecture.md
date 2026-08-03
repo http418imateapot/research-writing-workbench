@@ -1,43 +1,47 @@
 # Architecture
 
-## 單一正式來源
+## Authoring and distribution boundaries
 
-`.agents/skills/research-writing-workbench/` 是唯一可發布的 Skill。`SKILL.md` 負責觸發、適用範圍、CTCC Workflow 與核心邊界；`references/` 保存領域規則；`assets/templates/` 定義正式研究產物。
+`skills/` is the only Skill source tree. `shared/` is the only source for governance Schemas and cross-Skill rules. Root `scripts/` contains deterministic CLIs. `build.py` uses explicit maps to assemble each self-contained Skill under `dist/agents-skills/` and deterministic archives under `dist/claude/`.
 
-根目錄 Prompt 是較短的聊天介面，不複製完整 reference。README、docs 與 examples 用於安裝、治理與展示，不能成為第二份方法正文。
+The source tree is not recursively copied. Tests, CI, fixtures, examples, `.work`, private sources, reports, exports, caches, and authoring history are excluded unless an explicit distribution map names a file.
 
-## CTCC 資料流
+## Workflow architecture
 
 ```mermaid
 flowchart TD
-  P["工程異常與現有產物"] --> Q["Engineering Question Brief"]
-  Q --> C["Validation Contract"]
-  C --> S["Scenario Matrix"]
-  S --> E["Execution Record"]
-  E --> T["Trace Index"]
-  T --> X["Counterexample Review"]
-  X --> L["Bounded Claim Record"]
-  L --> W["有限文字與 Release Check"]
-  X -- "暴露契約缺口" --> C
-  L -- "證據不足" --> S
+  R["research-writing-workbench router"] --> P["research-planning"]
+  P --> L["literature-discovery"]
+  L --> E["evidence-extract"]
+  E --> S["research-synthesis"]
+  S --> M["methodology-review"]
+  M --> W["research-writing"]
+  W --> X["research-export"]
+  X --> K["research-risk-watch"]
+  K -- "new risk or source drift" --> E
 ```
 
-這是可回饋控制環，不是論文章節順序。只有實際執行與可定位產物能把成熟度由 `planned` 提升；研究者才能裁定主張為 `keep`、`narrow`、`rework` 或 `withdraw`。
+These are capability boundaries, not mandatory paper chapters. Invoke only the Skills needed for the request, but keep stable IDs across handoffs.
 
-## 相依方向
+## Governance data flow
 
-```text
-SKILL.md ──> references/
-    │       assets/templates/
-    └─────> 任務執行規則
-
-README/docs ──> 使用、架構與治理
-prompts     ──> 簡化聊天介面
-scripts/tests ──> 結構、來源隔離、隱私與封裝驗證
+```mermaid
+flowchart LR
+  A["Sources and engineering artifacts"] --> C["Source Catalog"]
+  C --> E["Evidence and Claims"]
+  E --> F["Finding report"]
+  F --> H["Checklist"]
+  H --> D["Decision Log"]
+  D --> O["Formal export and sidecar"]
+  H -- "high unresolved" --> B["exit code 8"]
 ```
 
-正式封裝只包含 Skill 目錄。來源附件、`.work`、tests、examples、dist cache 與 repository 治理文件不能進入發布 ZIP。
+Findings never directly modify core Sources, Evidence, or Claims. Only the resolution CLI applies explicit decisions to listed Checklist fingerprints and appends the Decision Log. Formal export accepts only active, reviewed or confirmed, source-grounded claims.
 
-## 變更規則
+## CTCC compatibility
 
-變更成熟度、主張種類、模板欄位或 Workflow 時，同步更新相關 reference、Prompt、README、範例、測試與 CHANGELOG。驗證器拒絕前身附件的舊檔名與高辨識度架構標記，以降低內容回流風險。
+The legacy Contract–Trace–Counterexample–Claim loop remains the engineering-research control loop. Its maturity, claim-type, researcher-decision, unresolved-marker, template-field, and evidence-boundary contracts remain unchanged. The JSON governance layer is additive and does not promote Markdown artifact maturity.
+
+## Build safety and reproducibility
+
+Builds occur in temporary staging. A full build replaces only the resolved repository-root directory named exactly `dist`. ZIP entries use sorted paths, `/` separators, a fixed timestamp, fixed permissions, DEFLATE level 9, and a stable top-level layout. `checksums.sha256` covers all generated files except itself.

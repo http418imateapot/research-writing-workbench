@@ -1,5 +1,10 @@
 .work/
+.venv/
 dist/
+reports/
+exports/
+user-data/
+sources-private/
 __pycache__/
 *.py[cod]
 .DS_Store

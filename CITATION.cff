@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this project, please cite it using this metadata."
 title: "Research Writing Workbench"
 type: software
-version: "0.1.0"
-date-released: "2026-08-02"
+version: "1.0.0"
+date-released: "2026-08-03"
 authors:
   - name: "http418imateapot and contributors"
 license: MIT

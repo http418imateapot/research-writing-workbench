@@ -13,14 +13,16 @@
 ## 驗證
 
 ```shell
-python scripts/check_all.py
-python scripts/package_skill.py --output-dir .work/package-smoke
+.venv/bin/python scripts/check_all.py
+.venv/bin/python build.py --check
+.venv/bin/python scripts/package_skill.py --output-dir .work/package-smoke
 git diff --check
 ```
 
 ## Pull request 檢查表
 
-- [ ] 只有一份正式 Skill，內部連結有效。
+- [ ] `skills/` 是唯一正式來源；Skill 邊界、內部連結與 metadata 有效。
+- [ ] 來源、Evidence、Finding、人工決策與正式輸出未混寫。
 - [ ] 新工程判準有契約、產物、反例與適用邊界。
 - [ ] `planned` 沒有被誤寫成實際執行或結果。
 - [ ] 無秘密、私有程式碼、可識別 Log、虛構引用或未授權出版內容。

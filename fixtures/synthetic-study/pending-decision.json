@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "decisions": [
+    {
+      "decision_id": "D-SYN-001",
+      "fingerprint": "FP-9376ED3153162BC901FE3D4C",
+      "action": "close",
+      "reviewer": "Synthetic Reviewer",
+      "reviewed_at": "2026-08-03",
+      "reason": "The bounded fixture wording was reviewed."
+    }
+  ]
+}

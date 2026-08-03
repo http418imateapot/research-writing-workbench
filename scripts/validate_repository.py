@@ -1,4 +1,4 @@
-"""Validate repository structure and text contracts without third-party packages."""
+"""Validate repository structure and text contracts without runtime dependencies."""
 
 from __future__ import annotations
 
@@ -7,37 +7,36 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
+from typing import Iterable, List, Optional
 
-SKILL_REL = Path(".agents/skills/research-writing-workbench")
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from build import BuildError, SKILL_NAMES, SOURCE_SKILL_ROOT, read_version, validate_skill
+
+
 REQUIRED_FILES = [
-    Path("README.md"), Path("README.en.md"), Path("AGENTS.md"),
-    Path("ARCHITECTURE.md"), Path("VERSION"), Path("CITATION.cff"),
-    Path("CHANGELOG.md"), Path("LICENSE"), Path("THIRD_PARTY_NOTICES.md"),
-    Path("CONTRIBUTING.md"), Path("CODE_OF_CONDUCT.md"), Path("SECURITY.md"),
-    SKILL_REL / "SKILL.md",
-    Path("prompts/master-prompt.zh-TW.md"),
+    Path("README.md"), Path("README.zh-TW.md"), Path("README.en.md"),
+    Path("AGENTS.md"), Path("ARCHITECTURE.md"), Path("VERSION"),
+    Path("CITATION.cff"), Path("CHANGELOG.md"), Path("LICENSE"),
+    Path("THIRD_PARTY_NOTICES.md"), Path("CONTRIBUTING.md"), Path("CODE_OF_CONDUCT.md"),
+    Path("SECURITY.md"), Path("build.py"), Path("build.sh"), Path("build.bat"),
+    Path("docs/DATA-CONTRACTS.md"), Path("docs/INSTALL.md"),
+    Path("docs/USAGE.zh-TW.md"), Path("docs/MIGRATION-1.0.md"), Path("toolkit/README.md"),
+    Path("prompts/commands.zh-TW.md"),
 ]
 REQUIRED_DIRS = [
-    SKILL_REL / "references", SKILL_REL / "assets/templates",
-    Path("docs"), Path("prompts"), Path("examples"), Path("scripts"), Path("tests"),
-]
-TEMPLATES = [
-    "engineering-question-brief.md", "validation-contract.md", "scenario-matrix.md",
-    "trace-index.md", "execution-record.md", "counterexample-review.md",
-    "bounded-claim-record.md", "ai-use-record.md", "release-check.md",
-]
-REFERENCES = [
-    "01-domain-and-ctcc.md", "02-contract-and-comparison.md",
-    "03-trace-and-evidence.md", "04-counterexamples.md",
-    "05-bounded-writing.md", "06-ai-audit-and-release.md",
+    Path("skills"), Path("shared/schemas"), Path("shared/prompts"),
+    Path("shared/rules"), Path("shared/checklists"), Path("fixtures"),
+    Path("docs"), Path("prompts"), Path("scripts"), Path("tests"),
 ]
 REQUIRED_METHOD_MARKERS = [
     "契約—軌跡—反例—主張", "planned", "reproduced",
     "implementation", "withdraw", "[未取得產物]",
 ]
-TEXT_SUFFIXES = {".md", ".py", ".yml", ".yaml", ".cff", ".txt", ""}
-EXCLUDED_PARTS = {".git", ".work", "dist", "__pycache__"}
+TEXT_SUFFIXES = {".md", ".py", ".yml", ".yaml", ".json", ".cff", ".txt", ""}
+EXCLUDED_PARTS = {".git", ".work", ".venv", "dist", "reports", "exports", "__pycache__"}
 
 
 def text_files(root: Path) -> Iterable[Path]:
@@ -46,22 +45,6 @@ def text_files(root: Path) -> Iterable[Path]:
             continue
         if path.suffix.lower() in TEXT_SUFFIXES or path.name.startswith("."):
             yield path
-
-
-def parse_frontmatter(text: str) -> Dict[str, str]:
-    lines = text.splitlines()
-    if len(lines) < 4 or lines[0] != "---":
-        return {}
-    try:
-        end = lines.index("---", 1)
-    except ValueError:
-        return {}
-    values = {}
-    for line in lines[1:end]:
-        if ":" in line:
-            key, value = line.split(":", 1)
-            values[key.strip()] = value.strip().strip('"\'')
-    return values
 
 
 def markdown_fences_balanced(text: str) -> bool:
@@ -79,7 +62,7 @@ def markdown_fences_balanced(text: str) -> bool:
 
 
 def link_errors(root: Path, path: Path, text: str) -> List[str]:
-    errors = []
+    errors: List[str] = []
     for match in re.finditer(r"!?\[[^\]]*\]\(([^)]+)\)", text):
         target = match.group(1).strip().split("#", 1)[0]
         if not target or re.match(r"^[a-z][a-z0-9+.-]*:", target, re.I):
@@ -99,15 +82,12 @@ def link_errors(root: Path, path: Path, text: str) -> List[str]:
 def tracked_ignored_paths(root: Path) -> List[str]:
     if not (root / ".git").exists():
         return []
-    result = subprocess.run(
-        ["git", "ls-files"], cwd=root, text=True, capture_output=True, check=False
-    )
+    result = subprocess.run(["git", "ls-files"], cwd=root, text=True, capture_output=True, check=False)
     if result.returncode != 0:
         return ["unable to inspect tracked files with git ls-files"]
-    bad = []
+    bad: List[str] = []
     for name in result.stdout.splitlines():
-        parts = Path(name).parts
-        if any(part in {"dist", ".work", "__pycache__"} for part in parts):
+        if any(part in {"dist", ".work", ".venv", "__pycache__"} for part in Path(name).parts):
             bad.append(f"ignored path is tracked: {name}")
     return bad
 
@@ -122,58 +102,34 @@ def validate_repository(root: Path) -> List[str]:
         if not (root / rel).is_dir():
             errors.append(f"missing required directory: {rel.as_posix()}")
 
-    skill_files = sorted((root / ".agents/skills").glob("*/SKILL.md")) if (root / ".agents/skills").exists() else []
-    if len(skill_files) != 1 or (skill_files and skill_files[0].parent.name != "research-writing-workbench"):
-        errors.append("repository must contain exactly one canonical skill directory")
-
-    skill_path = root / SKILL_REL / "SKILL.md"
-    if skill_path.is_file():
+    actual_skills = tuple(sorted(path.parent.name for path in (root / SOURCE_SKILL_ROOT).glob("*/SKILL.md"))) if (root / SOURCE_SKILL_ROOT).exists() else ()
+    if actual_skills != SKILL_NAMES:
+        errors.append(f"skill source set mismatch: expected={SKILL_NAMES}, actual={actual_skills}")
+    if (root / ".agents" / "skills").exists():
+        errors.append("legacy .agents/skills source must not duplicate canonical skills/")
+    for skill_name in SKILL_NAMES:
         try:
-            metadata = parse_frontmatter(skill_path.read_text(encoding="utf-8"))
-        except UnicodeDecodeError as exc:
-            metadata = {}
-            errors.append(f"invalid UTF-8: {skill_path.relative_to(root)}: {exc}")
-        if metadata.get("name") != "research-writing-workbench":
-            errors.append("SKILL.md frontmatter name must be research-writing-workbench")
-        if not metadata.get("description"):
-            errors.append("SKILL.md frontmatter description is required")
-        skill_text = skill_path.read_text(encoding="utf-8")
+            validate_skill(root, skill_name)
+        except (BuildError, OSError, UnicodeError) as exc:
+            errors.append(str(exc))
+
+    core_path = root / SOURCE_SKILL_ROOT / "research-writing-workbench" / "SKILL.md"
+    if core_path.is_file():
+        skill_text = core_path.read_text(encoding="utf-8")
         for marker in REQUIRED_METHOD_MARKERS:
             if marker not in skill_text:
-                errors.append(f"SKILL.md lacks CTCC method marker: {marker}")
+                errors.append(f"core SKILL.md lacks CTCC method marker: {marker}")
 
-    version = ""
-    version_path = root / "VERSION"
-    if version_path.is_file():
-        version = version_path.read_text(encoding="utf-8").strip()
-        if not re.fullmatch(r"\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?", version):
-            errors.append("VERSION is not a basic semantic version")
+    try:
+        version = read_version(root)
+    except (BuildError, OSError) as exc:
+        errors.append(str(exc))
+        version = ""
     citation = root / "CITATION.cff"
     if citation.is_file() and version:
-        text = citation.read_text(encoding="utf-8")
-        match = re.search(r'^version:\s*["\']?([^"\'\s]+)', text, re.M)
+        match = re.search(r'^version:\s*["\']?([^"\'\s]+)', citation.read_text(encoding="utf-8"), re.M)
         if not match or match.group(1) != version:
             errors.append("CITATION.cff version does not match VERSION")
-
-    readme = root / "README.md"
-    if readme.is_file():
-        text = readme.read_text(encoding="utf-8")
-        if "不是通用研究方法" not in text or "CTCC" not in text or "研究者" not in text:
-            errors.append("README.md lacks domain positioning, CTCC, or researcher control")
-
-    template_dir = root / SKILL_REL / "assets/templates"
-    actual_templates = sorted(path.name for path in template_dir.glob("*.md")) if template_dir.is_dir() else []
-    for name in sorted(set(TEMPLATES) - set(actual_templates)):
-        errors.append(f"missing release template: {name}")
-    for name in sorted(set(actual_templates) - set(TEMPLATES)):
-        errors.append(f"unexpected release template: {name}")
-
-    reference_dir = root / SKILL_REL / "references"
-    actual_references = sorted(path.name for path in reference_dir.glob("*.md")) if reference_dir.is_dir() else []
-    for name in sorted(set(REFERENCES) - set(actual_references)):
-        errors.append(f"missing release reference: {name}")
-    for name in sorted(set(actual_references) - set(REFERENCES)):
-        errors.append(f"unexpected release reference: {name}")
 
     for path in text_files(root):
         try:
@@ -189,13 +145,21 @@ def validate_repository(root: Path) -> List[str]:
                 errors.append(f"Markdown file lacks final newline: {path.relative_to(root)}")
             errors.extend(link_errors(root, path, text))
 
+    for skill_name in SKILL_NAMES:
+        prompt = root / SOURCE_SKILL_ROOT / skill_name / "references" / "prompt-template.md"
+        if prompt.is_file():
+            content = prompt.read_text(encoding="utf-8")
+            for heading in ("## Input", "## Output", "## Required", "## Forbidden", "## Positive example", "## Negative example"):
+                if heading not in content:
+                    errors.append(f"{prompt.relative_to(root)} lacks {heading}")
+
     errors.extend(tracked_ignored_paths(root))
     return errors
 
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Validate the Research Writing Workbench repository.")
-    parser.add_argument("root", nargs="?", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument("root", nargs="?", type=Path, default=ROOT)
     args = parser.parse_args(argv)
     errors = validate_repository(args.root)
     if errors:

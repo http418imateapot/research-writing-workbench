@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "sources": [
+    {
+      "source_id": "SRC-SYN-001",
+      "title": "Synthetic event replay note",
+      "authors": ["Synthetic Author"],
+      "year": "2026",
+      "version": "v1",
+      "publication": "Synthetic fixture only",
+      "identifiers": {"other": "synthetic-note-001"},
+      "location": "fixtures/synthetic-study/source-note.md",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "locators": ["section:observation"],
+      "excerpts": [
+        {
+          "locator": "section:observation",
+          "text": "The synthetic replay emitted one observable state transition.",
+          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "redacted": false
+        }
+      ],
+      "accessed_at": "2026-08-03",
+      "status": "active",
+      "verification_status": "verified",
+      "license_status": "redistributable",
+      "notes": "Invented fixture; no external source exists."
+    }
+  ]
+}

@@ -18,7 +18,7 @@ class RepositoryValidationTests(unittest.TestCase):
         shutil.copytree(
             ROOT,
             target,
-            ignore=shutil.ignore_patterns(".git", ".work", "dist", "__pycache__", "*.pyc"),
+            ignore=shutil.ignore_patterns(".git", ".work", ".venv", "dist", "__pycache__", "*.pyc"),
         )
         return temp, target
 
@@ -28,17 +28,17 @@ class RepositoryValidationTests(unittest.TestCase):
     def test_missing_skill_fails(self) -> None:
         temp, target = self.copy_repository()
         self.addCleanup(temp.cleanup)
-        (target / ".agents/skills/research-writing-workbench/SKILL.md").unlink()
+        (target / "skills/research-writing-workbench/SKILL.md").unlink()
         self.assertTrue(any("SKILL.md" in error for error in validate_repository(target)))
 
     def test_wrong_frontmatter_name_fails(self) -> None:
         temp, target = self.copy_repository()
         self.addCleanup(temp.cleanup)
-        skill = target / ".agents/skills/research-writing-workbench/SKILL.md"
+        skill = target / "skills/research-writing-workbench/SKILL.md"
         skill.write_text(skill.read_text(encoding="utf-8").replace(
             "name: research-writing-workbench", "name: wrong-name", 1
         ), encoding="utf-8")
-        self.assertTrue(any("frontmatter name" in error for error in validate_repository(target)))
+        self.assertTrue(any("metadata does not match directory" in error for error in validate_repository(target)))
 
     def test_unclosed_fence_fails(self) -> None:
         temp, target = self.copy_repository()
@@ -57,14 +57,14 @@ class RepositoryValidationTests(unittest.TestCase):
     def test_unexpected_template_fails(self) -> None:
         temp, target = self.copy_repository()
         self.addCleanup(temp.cleanup)
-        template = target / ".agents/skills/research-writing-workbench/assets/templates/extra.md"
+        template = target / "skills/research-writing-workbench/assets/templates/extra.md"
         template.write_text("# Extra\n", encoding="utf-8")
-        self.assertTrue(any("unexpected release template" in error for error in validate_repository(target)))
+        self.assertTrue(any("whitelist mismatch" in error for error in validate_repository(target)))
 
     def test_missing_ctcc_marker_fails(self) -> None:
         temp, target = self.copy_repository()
         self.addCleanup(temp.cleanup)
-        skill = target / ".agents/skills/research-writing-workbench/SKILL.md"
+        skill = target / "skills/research-writing-workbench/SKILL.md"
         skill.write_text(
             skill.read_text(encoding="utf-8").replace("implementation", "build-statement"),
             encoding="utf-8",

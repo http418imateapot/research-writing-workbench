@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Export"
+  short_description: "Export reviewed research with audit reports"
+  default_prompt: "Use $research-export to produce a governed research deliverable and its audit sidecar."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Risk Watch"
+  short_description: "Track conflicts, retractions, and research gaps"
+  default_prompt: "Use $research-risk-watch to check source conflicts, corrections, retractions, and unresolved research risks."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Literature Discovery"
+  short_description: "Discover and catalog verifiable literature"
+  default_prompt: "Use $literature-discovery to design a reproducible search and source catalog for my research question."

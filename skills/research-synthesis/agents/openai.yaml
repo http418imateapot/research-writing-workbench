@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Synthesis"
+  short_description: "Synthesize claims without exceeding evidence"
+  default_prompt: "Use $research-synthesis to compare the governed evidence and draft bounded claim records."
