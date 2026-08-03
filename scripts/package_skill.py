@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import List, Optional, Tuple
 
 SKILL_NAME = "research-writing-workbench"
-SKILL_REL = Path(".agents/skills") / SKILL_NAME
+SKILL_REL = Path("skills") / SKILL_NAME
 FIXED_TIME = (2020, 1, 1, 0, 0, 0)
 
 

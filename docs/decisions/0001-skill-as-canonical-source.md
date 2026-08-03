@@ -1,10 +1,10 @@
 # ADR 0001：Skill 作為唯一正式來源
 
-狀態：Accepted
+狀態：Superseded by ADR 0003
 
 ## 決策
 
-以 `.agents/skills/research-writing-workbench/` 作為唯一正式技能來源；README、docs 與 prompts 不複製完整方法正文。
+原決策以 `.agents/skills/research-writing-workbench/` 作為唯一正式技能來源。1.0.0 起由 ADR 0003 的 `skills/` 工具包原始碼取代；README、docs 與 prompts 仍不複製完整方法正文。
 
 ## 理由與影響
 

@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "items": [
+    {
+      "fingerprint": "FP-9376ED3153162BC901FE3D4C",
+      "finding_id": "F-SYN-001",
+      "priority": "high",
+      "status": "open",
+      "affected_ids": ["CL-SYN-001"],
+      "source_hashes": {"SRC-SYN-001": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+      "history": [{"at": "2026-08-03", "event": "opened", "reason": "review required"}]
+    }
+  ]
+}

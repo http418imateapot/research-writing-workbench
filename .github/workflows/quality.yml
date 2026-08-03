@@ -10,7 +10,15 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: .venv/bin/python
+          - os: windows-latest
+            python: .venv/Scripts/python.exe
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -18,17 +26,32 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: "3.13"
-      - name: Run unit tests
-        run: python -m unittest discover -s tests -v
+      - name: Create repository virtual environment
+        run: python -m venv .venv
+      - name: Install development checks
+        run: ${{ matrix.python }} -m pip install -r requirements-dev.txt
+      - name: Compile project code
+        run: ${{ matrix.python }} -m compileall -q build.py scripts tests
+      - name: Run pytest
+        run: ${{ matrix.python }} -m pytest -q
       - name: Validate repository
-        run: python scripts/validate_repository.py
+        run: ${{ matrix.python }} scripts/validate_repository.py
       - name: Scan privacy risks
-        run: python scripts/privacy_scan.py
-      - name: Package skill smoke test
-        run: python scripts/package_skill.py --output-dir .work/ci-artifacts
-      - name: Upload packaged skill
-        uses: actions/upload-artifact@v4
+        run: ${{ matrix.python }} scripts/privacy_scan.py
+      - name: Check reproducible build assembly
+        run: ${{ matrix.python }} build.py --check
+      - name: Build local release candidate
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          ${{ matrix.python }} build.py
+          if [ -n "$(git ls-files dist)" ]; then
+            echo "dist contains tracked files"
+            exit 1
+          fi
+      - name: Upload local release candidate
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v6
         with:
-          name: research-writing-workbench-skill
-          path: .work/ci-artifacts/*
+          name: research-writing-workbench-local-candidate
+          path: dist/
           if-no-files-found: error

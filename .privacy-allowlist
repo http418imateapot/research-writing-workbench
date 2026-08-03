@@ -4,6 +4,8 @@ example\.invalid
 www\.apache\.org
 keepachangelog\.com
 research-writing-workbench
+# 固定合成 fixture SHA-256；不對應任何真實來源或秘密。
+(?:a{64}|b{64})
 # 公開書目識別碼與公開商品頁；僅限 docs/method-origin.md 使用。
 9789863128601
 books\.com\.tw/products/0011044193

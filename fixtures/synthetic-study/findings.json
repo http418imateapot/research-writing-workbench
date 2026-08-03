@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-03",
+  "findings": [
+    {
+      "finding_id": "F-SYN-001",
+      "target_ids": ["CL-SYN-001"],
+      "source_ids": ["SRC-SYN-001"],
+      "method": {
+        "id": "method-audit",
+        "version": "1.0.0",
+        "kind": "deterministic",
+        "inputs": {"claim_id": "CL-SYN-001"},
+        "output": {"requires_execution_evidence": true}
+      },
+      "result": "The wording must not be expanded into an executed-system claim.",
+      "severity": "high",
+      "requires_review": true,
+      "limitations": "The check covers only the synthetic fixture contract."
+    }
+  ]
+}

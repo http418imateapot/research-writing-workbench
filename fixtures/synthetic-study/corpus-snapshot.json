@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "snapshot_id": "SNAP-SYN-001",
+  "captured_at": "2026-08-03",
+  "searches": [
+    {
+      "database": "synthetic-fixture",
+      "query": "event replay",
+      "searched_at": "2026-08-03",
+      "result_count": 1
+    }
+  ],
+  "included_source_ids": ["SRC-SYN-001"],
+  "excluded_sources": [],
+  "input_hashes": {"fixture": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+}

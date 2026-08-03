@@ -2,13 +2,13 @@
 
 ## Repository skill
 
-Codex 會從 `.agents/skills/research-writing-workbench/` 載入正式 Skill。呼叫時提供系統與版本、可重現事件、現有程式／測試／Trace／Log／Diff、可執行環境、研究問題及不可變更內容。
+先建置工具包，再從 `dist/agents-skills/` 安裝需要的 Skill。跨階段任務從 `$research-writing-workbench` 開始；單一任務可直接呼叫對應 Skill。呼叫時提供系統與版本、來源或工程產物位置、研究問題、可執行環境及不可變更內容。
 
 ```text
 使用 $research-writing-workbench，為這個非同步命令建立 validation contract。先區分接受、效果與穩定三種完成語意，再根據我提供的測試與 Trace 建立 scenario matrix；沒有執行過的項目保持 planned。
 ```
 
-建議先複製 [Engineering Question Brief](../.agents/skills/research-writing-workbench/assets/templates/engineering-question-brief.md) 與 [Validation Contract](../.agents/skills/research-writing-workbench/assets/templates/validation-contract.md)。缺少檔案時保留 `[未取得產物]`，尚未重現時保留 `[尚未重現]`。
+建議先複製 [Engineering Question Brief](../skills/research-writing-workbench/assets/templates/engineering-question-brief.md) 與 [Validation Contract](../skills/research-writing-workbench/assets/templates/validation-contract.md)。缺少檔案時保留 `[未取得產物]`，尚未重現時保留 `[尚未重現]`。
 
 ## 一般 Markdown Prompt
 

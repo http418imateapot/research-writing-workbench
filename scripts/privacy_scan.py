@@ -9,7 +9,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List, Optional, Pattern
 
-EXCLUDED = {".git", ".work", "dist", "__pycache__"}
+EXCLUDED = {
+    ".git", ".work", ".venv", "dist", "reports", "exports",
+    "user-data", "sources-private", "__pycache__",
+}
 TEXT_SUFFIXES = {".md", ".py", ".yml", ".yaml", ".cff", ".txt", ""}
 
 

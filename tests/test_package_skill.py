@@ -9,13 +9,14 @@ from scripts.package_skill import SKILL_NAME, package_skill
 
 
 ROOT = Path(__file__).resolve().parents[1]
+VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
 
 
 class PackageSkillTests(unittest.TestCase):
     def test_package_contains_only_canonical_skill_in_sorted_order(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             zip_path, manifest = package_skill(ROOT, Path(temp))
-            self.assertEqual(f"{SKILL_NAME}-skill-v0.1.0.zip", zip_path.name)
+            self.assertEqual(f"{SKILL_NAME}-skill-v{VERSION}.zip", zip_path.name)
             self.assertTrue(manifest.is_file())
             with zipfile.ZipFile(zip_path) as archive:
                 names = archive.namelist()

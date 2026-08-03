@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evidence Extract"
+  short_description: "Extract traceable evidence from source materials"
+  default_prompt: "Use $evidence-extract to extract bounded, source-linked evidence from the materials I provide."

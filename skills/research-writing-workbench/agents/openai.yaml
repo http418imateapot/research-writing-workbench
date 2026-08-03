@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Writing Workbench"
+  short_description: "Route governed software-engineering research"
+  default_prompt: "Use $research-writing-workbench to route my software-engineering research through the governed CTCC workflow."
